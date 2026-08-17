@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUMA Coffee Lab — Café de especialidad en Providencia, Santiago</title>
+<meta name="description" content="BRUMA Coffee Lab: cafetería de especialidad en Providencia, Santiago. Tueste propio en pequeños lotes, café de origen y repostería artesanal. Reserva tu mesa.">
+<meta name="theme-color" content="#14110f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2314110f'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' font-family='Georgia,serif' fill='%23b9a6ff'%3EB%3C/text%3E%3C/svg%3E">
+
+<style>
+  /* ================= RESET & BASE ================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  :root{
+    --bg: #14110f;
+    --bg-alt: #1b1713;
+    --bg-card: #211c17;
+    --cream: #f6efe4;
+    --cream-dim: #cabfae;
+    --cream-faint: #93897a;
+    --accent: #b9a6ff;
+    --accent-soft: #d9cfff;
+    --accent-dark: #7c6fd8;
+    --earth: #b08a5f;
+    --line: rgba(246,239,228,0.12);
+    --line-strong: rgba(246,239,228,0.22);
+    --shadow: 0 20px 60px rgba(0,0,0,0.45);
+    --serif: Georgia, 'Times New Roman', Times, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --maxw: 1180px;
+  }
+
+  body{
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  section { position: relative; }
+
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 40px);
+  }
+
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before{
+    content: "";
+    width: 26px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.15; color: var(--cream); }
+
+  .section-head{
+    max-width: 640px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .section-head h2{ font-size: clamp(2rem, 4.2vw, 2.9rem); margin-bottom: 14px; }
+  .section-head p{ color: var(--cream-dim); font-size: 1.05rem; }
+  .section-head.left{ text-align: left; margin-left: 0; }
+
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+    white-space: nowrap;
+  }
+  .btn-primary{
+    background: var(--accent);
+    color: #16121d;
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 12px 30px rgba(185,166,255,0.28); background: var(--accent-soft); }
+  .btn-outline{
+    border: 1px solid var(--line-strong);
+    color: var(--cream);
+  }
+  .btn-outline:hover{ border-color: var(--accent); color: var(--accent-soft); transform: translateY(-2px); }
+  .btn-block{ width: 100%; }
+
+  ::selection{ background: var(--accent); color: #16121d; }
+
+  /* ================= SCROLL REVEAL ================= */
+  .reveal{ opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+  .reveal-stagger > * { transition-delay: calc(var(--i, 0) * 90ms); }
+
+  /* ================= NAV ================= */
+  .nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 22px 0;
+    transition: padding .35s ease, background .35s ease, border-color .35s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled{
+    padding: 14px 0;
+    background: rgba(20,17,15,0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap{ display: flex; align-items: center; justify-content: space-between; }
+
+  .brand{ display: flex; align-items: center; gap: 12px; }
+  .brand-mark{
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand-mark svg{ width: 22px; height: 22px; }
+  .brand-name{ font-family: var(--serif); font-size: 1.25rem; letter-spacing: 0.06em; }
+  .brand-name span{ color: var(--accent-soft); }
+  .brand-sub{ display:block; font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-faint); margin-top: 2px; }
+
+  .nav-links{ display: flex; align-items: center; gap: 34px; }
+  .nav-links a{
+    font-size: 0.86rem;
+    letter-spacing: 0.03em;
+    color: var(--cream-dim);
+    position: relative;
+    padding: 4px 0;
+    transition: color .25s ease;
+  }
+  .nav-links a:hover{ color: var(--cream); }
+  .nav-links a::after{
+    content: "";
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width .25s ease;
+  }
+  .nav-links a:hover::after{ width: 100%; }
+  .nav-cta{ display: flex; align-items: center; gap: 18px; }
+  .nav-cta .btn{ padding: 11px 22px; font-size: 0.82rem; }
+
+  .burger{
+    display: none;
+    width: 40px; height: 40px;
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 600;
+  }
+  .burger span{
+    width: 22px; height: 1.5px;
+    background: var(--cream);
+    transition: transform .3s ease, opacity .3s ease;
+  }
+  .burger.active span:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+  .burger.active span:nth-child(2){ opacity: 0; }
+  .burger.active span:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu{
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 450;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    transform: translateY(-100%);
+    transition: transform .45s cubic-bezier(.65,0,.35,1);
+  }
+  .mobile-menu.open{ transform: translateY(0); }
+  .mobile-menu a{ font-family: var(--serif); font-size: 1.9rem; color: var(--cream); }
+  .mobile-menu .btn{ margin-top: 10px; }
+
+  /* ================= HERO ================= */
+  .hero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 110px;
+    padding-bottom: 60px;
+    background:
+      radial-gradient(ellipse 60% 45% at 18% 8%, rgba(185,166,255,0.16), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 88% 18%, rgba(176,138,95,0.14), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 50% 100%, rgba(185,166,255,0.08), transparent 65%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .hero .wrap{
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .hero-copy h1{
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    letter-spacing: -0.01em;
+    margin-bottom: 22px;
+  }
+  .hero-copy h1 em{ font-style: italic; color: var(--accent-soft); }
+  .hero-copy p.lead{
+    color: var(--cream-dim);
+    font-size: 1.12rem;
+    max-width: 460px;
+    margin-bottom: 34px;
+  }
+  .hero-actions{ display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 46px; }
+
+  .hero-stats{ display: flex; gap: 36px; flex-wrap: wrap; }
+  .hero-stats div strong{ display: block; font-family: var(--serif); font-size: 1.9rem; color: var(--accent-soft); }
+  .hero-stats div span{ font-size: 0.78rem; letter-spacing: 0.05em; color: var(--cream-faint); text-transform: uppercase; }
+
+  .hero-visual{ position: relative; display: flex; align-items: center; justify-content: center; }
+  .steam-ring{
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px dashed var(--line-strong);
+    animation: spin 40s linear infinite;
+  }
+  .steam-ring.r2{ inset: 40px; border-color: var(--line); animation-duration: 30s; animation-direction: reverse; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .cup-wrap{ position: relative; width: min(360px, 80vw); animation: float 6s ease-in-out infinite; }
+  @keyframes float{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-14px); } }
+
+  /* ================= HISTORIA ================= */
+  .historia{ padding: 130px 0; background: var(--bg-alt); }
+  .historia .wrap{ display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 70px; align-items: center; }
+  .historia-art{ position: relative; }
+  .historia-copy p{ color: var(--cream-dim); margin-bottom: 18px; font-size: 1.02rem; }
+  .historia-copy h2{ font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 24px; }
+  .signature{ margin-top: 32px; display: flex; align-items: center; gap: 16px; }
+  .signature-mark{ font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--accent-soft); }
+  .signature small{ display: block; color: var(--cream-faint); font-size: 0.8rem; }
+
+  .barista-card{
+    margin-top: 30px;
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--bg-card);
+    align-items: center;
+  }
+  .barista-avatar{
+    width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(155deg, var(--earth), #6b4b30);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1.3rem; color: var(--cream);
+  }
+  .barista-card h4{ font-size: 1rem; margin-bottom: 3px; }
+  .barista-card p{ font-size: 0.85rem; color: var(--cream-faint); }
+
+  /* ================= PROCESO ================= */
+  .proceso{ padding: 130px 0; }
+  .proceso-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    counter-reset: step;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .proceso-step{
+    padding: 40px 30px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    counter-increment: step;
+    position: relative;
+    transition: background .3s ease;
+  }
+  .proceso-step:hover{ background: var(--bg-alt); }
+  .proceso-step::before{
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--accent-soft);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 26px;
+  }
+  .proceso-step .icon{ margin-bottom: 20px; }
+  .proceso-step h3{ font-size: 1.15rem; margin-bottom: 10px; }
+  .proceso-step p{ color: var(--cream-dim); font-size: 0.92rem; }
+
+  /* ================= MENU ================= */
+  .menu{ padding: 130px 0; background: var(--bg-alt); }
+  .menu-filters{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 54px;
+  }
+  .filter-btn{
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--cream-dim);
+    transition: all .25s ease;
+  }
+  .filter-btn:hover{ color: var(--cream); border-color: var(--accent); }
+  .filter-btn.active{ background: var(--accent); color: #16121d; border-color: var(--accent); font-weight: 600; }
+
+  .menu-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 60px;
+  }
+  .menu-item{
+    display: none;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  .menu-item.show{ display: flex; animation: itemIn .5s ease forwards; }
+  @keyframes itemIn{ to{ opacity: 1; transform: translateY(0); } }
+  .menu-item-info h4{ font-size: 1.08rem; margin-bottom: 6px; display:flex; align-items:center; gap:8px; }
+  .menu-item-info p{ font-size: 0.86rem; color: var(--cream-faint); max-width: 340px; }
+  .menu-item-price{ font-family: var(--serif); font-size: 1.15rem; color: var(--accent-soft); white-space: nowrap; padding-top: 2px; }
+  .tag-new{
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #16121d;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  /* ================= FEATURES ================= */
+  .features{ padding: 130px 0; }
+  .features-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .feature-card{
+    padding: 34px 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--bg-card);
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .feature-card:hover{ transform: translateY(-6px); border-color: var(--accent); }
+  .feature-card .icon{ margin-bottom: 20px; }
+  .feature-card h3{ font-size: 1.15rem; margin-bottom: 10px; }
+  .feature-card p{ color: var(--cream-dim); font-size: 0.92rem; }
+
+  /* ================= TESTIMONIOS ================= */
+  .testimonios{ padding: 130px 0; background: var(--bg-alt); }
+  .rating-summary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 54px;
+    flex-wrap: wrap;
+  }
+  .rating-big{ font-family: var(--serif); font-size: 3.2rem; color: var(--accent-soft); }
+  .rating-stars{ color: var(--accent); font-size: 1.2rem; letter-spacing: 3px; }
+  .rating-meta{ font-size: 0.85rem; color: var(--cream-faint); }
+  .rating-meta strong{ color: var(--cream); }
+
+  .reviews-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .review-card{
+    padding: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .review-top{ display: flex; align-items: center; gap: 12px; }
+  .review-avatar{
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1rem; color: #16121d;
+    flex-shrink: 0;
+  }
+  .review-name{ font-size: 0.95rem; font-weight: 600; }
+  .review-date{ font-size: 0.75rem; color: var(--cream-faint); }
+  .review-stars{ color: var(--accent); font-size: 0.95rem; letter-spacing: 2px; }
+  .review-text{ color: var(--cream-dim); font-size: 0.92rem; }
+  .review-src{ font-size: 0.72rem; color: var(--cream-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-top: auto; padding-top: 6px; }
+
+  /* ================= CONTACTO ================= */
+  .contacto{ padding: 130px 0; }
+  .contacto .wrap{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .info-list{ margin-top: 30px; display: flex; flex-direction: column; gap: 26px; }
+  .info-row{ display: flex; gap: 18px; align-items: flex-start; }
+  .info-row .icon{ flex-shrink: 0; }
+  .info-row h4{ font-size: 1rem; margin-bottom: 6px; font-family: var(--sans); font-weight: 600; }
+  .info-row p{ color: var(--cream-dim); font-size: 0.92rem; }
+  .info-row a:hover{ color: var(--accent-soft); }
+
+  .schedule-table{ width: 100%; margin-top: 8px; border-collapse: collapse; }
+  .schedule-table tr{ border-bottom: 1px solid var(--line); }
+  .schedule-table td{ padding: 10px 0; font-size: 0.9rem; color: var(--cream-dim); }
+  .schedule-table td:last-child{ text-align: right; color: var(--cream); }
+
+  .social-row{ display: flex; gap: 12px; margin-top: 10px; }
+  .social-pill{
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: flex; align-items: center; justify-content: center;
+    transition: all .25s ease;
+  }
+  .social-pill:hover{ border-color: var(--accent); background: var(--accent); color: #16121d; transform: translateY(-3px); }
+
+  .map-card{
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+  }
+  .map-visual{
+    height: 280px;
+    position: relative;
+    background:
+      linear-gradient(rgba(20,17,15,0.55), rgba(20,17,15,0.75)),
+      repeating-linear-gradient(0deg, rgba(246,239,228,0.06) 0 1px, transparent 1px 40px),
+      repeating-linear-gradient(90deg, rgba(246,239,228,0.06) 0 1px, transparent 1px 40px),
+      linear-gradient(135deg, #221c33, #14110f 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .map-pin{ display: flex; flex-direction: column; align-items: center; animation: pinBounce 2.4s ease-in-out infinite; }
+  @keyframes pinBounce{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+  .map-pin span{ margin-top: 10px; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--cream-dim); background: rgba(20,17,15,0.7); padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line-strong); }
+
+  .map-form{ padding: 26px; }
+  .map-form h4{ font-family: var(--serif); font-size: 1.1rem; margin-bottom: 4px; }
+  .map-form p{ font-size: 0.85rem; color: var(--cream-faint); margin-bottom: 18px; }
+
+  .form-grid{ display: grid; gap: 14px; }
+  .form-grid .two{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-grid input, .form-grid select, .form-grid textarea{
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    transition: border-color .25s ease;
+  }
+  .form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus{ outline: none; border-color: var(--accent); }
+  .form-grid textarea{ resize: vertical; min-height: 80px; }
+  .form-note{ font-size: 0.78rem; color: var(--cream-faint); text-align: center; margin-top: 4px; }
+
+  /* ================= CTA BAND ================= */
+  .cta-band{
+    padding: 90px 0;
+    text-align: center;
+    background: linear-gradient(120deg, #201a30, #14110f 55%, #241c15);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .cta-band h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 16px; }
+  .cta-band p{ color: var(--cream-dim); margin-bottom: 32px; }
+  .cta-actions{ display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  /* ================= FOOTER ================= */
+  footer{ padding: 70px 0 30px; background: var(--bg-alt); }
+  .footer-grid{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--line);
+  }
+  .footer-brand p{ color: var(--cream-faint); font-size: 0.88rem; margin-top: 14px; max-width: 280px; }
+  .footer-col h5{ font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream-faint); margin-bottom: 18px; }
+  .footer-col ul{ display: flex; flex-direction: column; gap: 12px; }
+  .footer-col a{ font-size: 0.9rem; color: var(--cream-dim); transition: color .2s ease; }
+  .footer-col a:hover{ color: var(--accent-soft); }
+  .footer-bottom{
+    padding-top: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--cream-faint);
+  }
+  .footer-bottom .demo-tag{
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: 999px;
+    color: var(--cream-dim);
+  }
+  .footer-bottom .demo-tag strong{ color: var(--accent-soft); }
+
+  /* back to top */
+  .top-btn{
+    position: fixed;
+    right: 24px; bottom: 24px;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #16121d;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all .3s ease;
+    z-index: 400;
+    box-shadow: var(--shadow);
+  }
+  .top-btn.show{ opacity: 1; visibility: visible; transform: translateY(0); }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 980px){
+    .nav-links, .nav-cta .btn-outline{ display: none; }
+    .burger{ display: flex; }
+    .hero .wrap{ grid-template-columns: 1fr; text-align: center; }
+    .hero-copy p.lead{ margin-left: auto; margin-right: auto; }
+    .hero-actions, .hero-stats{ justify-content: center; }
+    .hero-visual{ order: -1; margin-bottom: 20px; }
+    .historia .wrap{ grid-template-columns: 1fr; }
+    .historia-art{ order: -1; max-width: 320px; margin: 0 auto; }
+    .proceso-grid{ grid-template-columns: repeat(2, 1fr); }
+    .features-grid{ grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid{ grid-template-columns: repeat(2, 1fr); }
+    .contacto .wrap{ grid-template-columns: 1fr; }
+    .footer-grid{ grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 640px){
+    .menu-grid{ grid-template-columns: 1fr; }
+    .proceso-grid{ grid-template-columns: 1fr; }
+    .features-grid{ grid-template-columns: 1fr; }
+    .reviews-grid{ grid-template-columns: 1fr; }
+    .footer-grid{ grid-template-columns: 1fr; gap: 30px; }
+    .form-grid .two{ grid-template-columns: 1fr; }
+    .footer-bottom{ flex-direction: column; align-items: flex-start; }
+    .section-head{ margin-bottom: 40px; }
+    .historia, .proceso, .menu, .features, .testimonios, .contacto{ padding: 90px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 9h13a3 3 0 0 1 0 6h-1" stroke="#16121d" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M4 9v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V9" stroke="#16121d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 5.5c0 1-1 1-1 2M10.5 5.5c0 1-1 1-1 2" stroke="#16121d" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <span class="brand-name">BRUMA<span>.</span></span>
+        <span class="brand-sub">Coffee Lab</span>
+      </span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#testimonios">Reseñas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="#contacto" class="btn btn-outline">Cómo llegar</a>
+      <a href="#reserva" class="btn btn-primary">Reservar mesa</a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#historia">Historia</a>
+  <a href="#proceso">Proceso</a>
+  <a href="#menu">Menú</a>
+  <a href="#testimonios">Reseñas</a>
+  <a href="#contacto">Contacto</a>
+  <a href="#reserva" class="btn btn-primary">Reservar mesa</a>
+</div>
+
+<div id="top"></div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-copy reveal in">
+      <p class="eyebrow">Providencia · Santiago de Chile</p>
+      <h1>Café de especialidad,<br><em>tostado con calma.</em></h1>
+      <p class="lead">Tostamos en pequeños lotes, seguimos el origen de cada grano y servimos cada taza como si fuera la única del día. Bienvenido a BRUMA.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">Ver el menú</a>
+        <a href="#reserva" class="btn btn-outline">Reservar una mesa</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>2018</strong><span>Desde</span></div>
+        <div><strong>+180</strong><span>Lotes tostados</span></div>
+        <div><strong>4.9/5</strong><span>Calificación</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="steam-ring"></div>
+      <div class="steam-ring r2"></div>
+      <div class="cup-wrap">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cupBody" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#efe7d8"/>
+              <stop offset="100%" stop-color="#cabfae"/>
+            </linearGradient>
+            <linearGradient id="coffeeTop" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#3a2417"/>
+              <stop offset="100%" stop-color="#1c110a"/>
+            </linearGradient>
+            <linearGradient id="saucer" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#b9a6ff"/>
+              <stop offset="100%" stop-color="#7c6fd8"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="160" cy="262" rx="132" ry="16" fill="url(#saucer)" opacity="0.9"/>
+          <ellipse cx="160" cy="256" rx="108" ry="12" fill="#16121d" opacity="0.35"/>
+          <path d="M78 120 L96 232 a20 20 0 0 0 20 17 h88 a20 20 0 0 0 20-17 L242 120 Z" fill="url(#cupBody)"/>
+          <ellipse cx="160" cy="120" rx="82" ry="18" fill="url(#coffeeTop)"/>
+          <ellipse cx="160" cy="118" rx="82" ry="16" fill="none" stroke="#efe7d8" stroke-width="3" opacity="0.5"/>
+          <path d="M234 132c26 4 44 24 40 48-4 22-24 36-46 34" fill="none" stroke="url(#cupBody)" stroke-width="12" stroke-linecap="round"/>
+          <path d="M132 96c-6-14 4-24 2-36M160 96c-6-14 4-26 2-38M188 96c-6-14 4-24 2-36" stroke="#f6efe4" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HISTORIA ============ -->
+<section class="historia" id="historia">
+  <div class="wrap">
+    <div class="historia-art reveal">
+      <svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bagGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#241c15"/>
+            <stop offset="100%" stop-color="#14110f"/>
+          </linearGradient>
+        </defs>
+        <rect x="40" y="60" width="220" height="240" rx="18" fill="url(#bagGrad)" stroke="#b9a6ff" stroke-opacity="0.25"/>
+        <path d="M40 100 h220" stroke="#f6efe4" stroke-opacity="0.12"/>
+        <circle cx="150" cy="190" r="52" fill="none" stroke="#b9a6ff" stroke-width="1.4" stroke-opacity="0.6"/>
+        <text x="150" y="182" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#f6efe4">BRUMA</text>
+        <text x="150" y="204" text-anchor="middle" font-family="Georgia, serif" font-size="10" letter-spacing="3" fill="#b9a6ff">ORIGEN · HUILA</text>
+        <path d="M60 76 l20-24 h140 l20 24" fill="none" stroke="#b9a6ff" stroke-opacity="0.3" stroke-width="2"/>
+        <g opacity="0.5">
+          <ellipse cx="90" cy="270" rx="7" ry="10" fill="#8a6d4f"/>
+          <ellipse cx="108" cy="278" rx="7" ry="10" fill="#8a6d4f"/>
+          <ellipse cx="126" cy="270" rx="7" ry="10" fill="#8a6d4f"/>
+        </g>
+      </svg>
+    </div>
+    <div class="historia-copy reveal">
+      <p class="eyebrow">Nuestra historia</p>
+      <h2>Nació en un patio de Ñuñoa, con un tostador de 1 kilo y demasiadas preguntas.</h2>
+      <p>BRUMA partió el 2018 como un experimento de fin de semana: un tostador casero, granos traídos en maleta desde Huila y un grupo de amigos dispuestos a tomarse mal un café para aprender a hacerlo bien. Ocho años después seguimos tostando en lotes pequeños, pero ahora en nuestro propio local de Providencia.</p>
+      <p>Trabajamos con compra directa a caficultores de Colombia, Etiopía y Brasil, pagando sobre el precio de mercado, y documentamos el origen de cada saco que entra al local. Cada bolsa que vendemos lleva la altura, el proceso y la fecha de tueste — porque el café también se cuenta.</p>
+      <div class="barista-card">
+        <div class="barista-avatar">DC</div>
+        <div>
+          <h4>Diego Concha — Barista Jefe</h4>
+          <p>3er lugar, Campeonato Nacional de Baristas 2024. A cargo de la curaduría de origen y los perfiles de tueste de BRUMA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESO ============ -->
+<section class="proceso" id="proceso">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center">Del origen a la taza</p>
+      <h2>Nuestro proceso de tueste</h2>
+      <p>Cuatro etapas, la misma obsesión: que cada taza refleje honestamente el grano del que viene.</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding:0">
+    <div class="proceso-grid reveal reveal-stagger">
+      <div class="proceso-step" style="--i:0">
+        <div class="icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 2C8 6 5 9.5 5 13.5A7 7 0 0 0 19 13.5C19 9.5 16 6 12 2Z" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Origen</h3>
+        <p>Compra directa a fincas de Huila (Colombia), Yirgacheffe (Etiopía) y Cerrado (Brasil), con trazabilidad completa.</p>
+      </div>
+      <div class="proceso-step" style="--i:1">
+        <div class="icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#b9a6ff" stroke-width="1.5"/><path d="M12 7v5l3 3" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Tueste en lotes de 12 kg</h3>
+        <p>Perfiles claros a medios, ajustados grano por grano para resaltar acidez y dulzor natural.</p>
+      </div>
+      <div class="proceso-step" style="--i:2">
+        <div class="icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M4 12h4m8 0h4M12 4v4m0 8v4" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Cata y control de calidad</h3>
+        <p>Cada lote se cupea antes de salir a barra. Si no pasa nuestro estándar, no se vende.</p>
+      </div>
+      <div class="proceso-step" style="--i:3">
+        <div class="icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M6 3h12l-2 8H8L6 3Z" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 11l1 10h4l1-10" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Extracción de precisión</h3>
+        <p>Molienda al momento y recetas calibradas a diario según humedad, molino y método.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center">Carta</p>
+      <h2>Nuestro menú</h2>
+      <p>Precios en pesos chilenos. La carta completa de granos de origen cambia según temporada de cosecha.</p>
+    </div>
+
+    <div class="menu-filters reveal">
+      <button class="filter-btn active" data-filter="all">Todo</button>
+      <button class="filter-btn" data-filter="espresso">Barra de espresso</button>
+      <button class="filter-btn" data-filter="filtrado">Métodos filtrados</button>
+      <button class="filter-btn" data-filter="pasteleria">Pastelería</button>
+    </div>
+
+    <div class="menu-grid reveal">
+      <!-- Espresso -->
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Espresso</h4><p>Origen rotativo de la casa, doble shot.</p></div>
+        <div class="menu-item-price">$2.500</div>
+      </div>
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Cortado</h4><p>Espresso con un toque de leche vaporizada.</p></div>
+        <div class="menu-item-price">$3.200</div>
+      </div>
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Flat White</h4><p>Doble ristretto, microespuma sedosa.</p></div>
+        <div class="menu-item-price">$3.800</div>
+      </div>
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Cappuccino</h4><p>Espresso, leche y espuma en partes iguales.</p></div>
+        <div class="menu-item-price">$3.800</div>
+      </div>
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Latte</h4><p>Espresso suave con leche entera vaporizada.</p></div>
+        <div class="menu-item-price">$4.200</div>
+      </div>
+      <div class="menu-item show" data-cat="espresso">
+        <div class="menu-item-info"><h4>Mocha Bruma <span class="tag-new">Firma</span></h4><p>Espresso, cacao 70% de Villa Alegre y leche vaporizada.</p></div>
+        <div class="menu-item-price">$4.500</div>
+      </div>
+
+      <!-- Filtrados -->
+      <div class="menu-item" data-cat="filtrado">
+        <div class="menu-item-info"><h4>V60 — Huila, Colombia</h4><p>Notas a durazno y panela. Método por goteo, 3 min.</p></div>
+        <div class="menu-item-price">$4.800</div>
+      </div>
+      <div class="menu-item" data-cat="filtrado">
+        <div class="menu-item-info"><h4>Chemex <span class="tag-new">Para 2</span></h4><p>Yirgacheffe, Etiopía. Cuerpo ligero, floral, para compartir.</p></div>
+        <div class="menu-item-price">$7.500</div>
+      </div>
+      <div class="menu-item" data-cat="filtrado">
+        <div class="menu-item-info"><h4>AeroPress</h4><p>Cerrado, Brasil. Cuerpo redondo, notas a chocolate y nuez.</p></div>
+        <div class="menu-item-price">$4.200</div>
+      </div>
+      <div class="menu-item" data-cat="filtrado">
+        <div class="menu-item-info"><h4>Cold Brew 12h</h4><p>Extracción en frío lenta, servido con hielo.</p></div>
+        <div class="menu-item-price">$4.500</div>
+      </div>
+      <div class="menu-item" data-cat="filtrado">
+        <div class="menu-item-info"><h4>Café Bruma de la casa</h4><p>Filtrado tradicional, blend propio de la semana.</p></div>
+        <div class="menu-item-price">$2.800</div>
+      </div>
+
+      <!-- Pastelería -->
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Croissant de mantequilla</h4><p>Horneado cada mañana, hojaldre 36 vueltas.</p></div>
+        <div class="menu-item-price">$2.800</div>
+      </div>
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Kranz de pistacho</h4><p>Trenza dulce rellena de crema de pistacho.</p></div>
+        <div class="menu-item-price">$4.500</div>
+      </div>
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Banana bread con nueces</h4><p>Receta de la casa, textura húmeda, sin conservantes.</p></div>
+        <div class="menu-item-price">$3.500</div>
+      </div>
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Alfajor de maicena</h4><p>Manjar artesanal, coco rallado por fuera.</p></div>
+        <div class="menu-item-price">$2.200</div>
+      </div>
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Cheesecake de maracuyá</h4><p>Base de galleta integral, coulis de la fruta.</p></div>
+        <div class="menu-item-price">$4.800</div>
+      </div>
+      <div class="menu-item" data-cat="pasteleria">
+        <div class="menu-item-info"><h4>Cookie avena y chocolate 70%</h4><p>Centro suave, horneada en pequeños lotes.</p></div>
+        <div class="menu-item-price">$2.500</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="features" id="porque">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center">Por qué elegirnos</p>
+      <h2>Un café que puedes rastrear hasta la finca</h2>
+      <p>No somos la cafetería más grande de Providencia. Preferimos ser la más consistente.</p>
+    </div>
+
+    <div class="features-grid reveal reveal-stagger">
+      <div class="feature-card" style="--i:0">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16M20 4L4 20" stroke="#b9a6ff" stroke-width="0" /><circle cx="12" cy="12" r="9" stroke="#b9a6ff" stroke-width="1.5"/><path d="M8 12l3 3 5-6" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Tueste propio semanal</h3>
+        <p>Tostamos los martes y jueves. Nunca vendemos café con más de 21 días desde el tueste.</p>
+      </div>
+      <div class="feature-card" style="--i:1">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5Z" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <h3>Trazabilidad de origen</h3>
+        <p>Cada bolsa indica finca, altura, proceso y fecha de tueste. Sin letra chica.</p>
+      </div>
+      <div class="feature-card" style="--i:2">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 21c4-4 8-7.5 8-12a8 8 0 0 0-16 0c0 4.5 4 8 8 12Z" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.4" stroke="#b9a6ff" stroke-width="1.5"/></svg></div>
+        <h3>Baristas certificados SCA</h3>
+        <p>Todo el equipo de barra tiene formación de la Specialty Coffee Association.</p>
+      </div>
+      <div class="feature-card" style="--i:3">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#b9a6ff" stroke-width="1.5"/><path d="M3 9h18" stroke="#b9a6ff" stroke-width="1.5"/></svg></div>
+        <h3>Espacio para trabajar</h3>
+        <p>Enchufes en cada mesa, wifi rápido y una sala de reuniones para 6 personas.</p>
+      </div>
+      <div class="feature-card" style="--i:4">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M6 3v18M6 3c4 0 4 4 8 4M6 11c4 0 4 4 8 4" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Comercio directo</h3>
+        <p>Pagamos sobre el precio de mercado a los caficultores con los que trabajamos.</p>
+      </div>
+      <div class="feature-card" style="--i:5">
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 1 8 8" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round"/><path d="M4 12V7m0 5h5" stroke="#b9a6ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Repostería diaria</h3>
+        <p>Horneamos cada mañana en el local. Lo que no se vende, no se repite al otro día.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIOS ============ -->
+<section class="testimonios" id="testimonios">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow" style="justify-content:center">Reseñas</p>
+      <h2>Lo que dicen nuestros clientes</h2>
+    </div>
+
+    <div class="rating-summary reveal">
+      <span class="rating-big">4.9</span>
+      <div>
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-meta"><strong>312 reseñas</strong> en Google · Providencia, Santiago</div>
+      </div>
+    </div>
+
+    <div class="reviews-grid reveal reveal-stagger">
+      <div class="review-card" style="--i:0">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#b9a6ff">JM</div>
+          <div>
+            <div class="review-name">Javiera Muñoz</div>
+            <div class="review-date">Hace 2 semanas</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">El V60 de Huila es otro nivel, se nota que les importa el origen del grano. Además el ambiente es súper acogedor para trabajar en la mañana.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+
+      <div class="review-card" style="--i:1">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#b08a5f">TE</div>
+          <div>
+            <div class="review-name">Tomás Errázuriz</div>
+            <div class="review-date">Hace 1 mes</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Vengo todos los sábados con el notebook. Wifi rápido, buena luz y el cortado es de los mejores que he tomado en Providencia.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+
+      <div class="review-card" style="--i:2">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#7c6fd8">CR</div>
+          <div>
+            <div class="review-name">Constanza Rivas</div>
+            <div class="review-date">Hace 1 mes</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">Buenísimo el flat white y el banana bread. El único pero es que a la hora de almuerzo se llena rápido y cuesta encontrar mesa.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+
+      <div class="review-card" style="--i:3">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#8a6d4f">MC</div>
+          <div>
+            <div class="review-name">Matías Contreras</div>
+            <div class="review-date">Hace 2 meses</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">El kranz de pistacho es adictivo. Pedí que me recomendaran un café para llevar a la casa y el barista se tomó el tiempo de explicarme todo el proceso.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+
+      <div class="review-card" style="--i:4">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#b9a6ff">FS</div>
+          <div>
+            <div class="review-name">Fernanda Soto</div>
+            <div class="review-date">Hace 3 meses</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Ambiente hermoso, muy minimalista, perfecto para reuniones de trabajo tranquilas. La Chemex para compartir es una excelente opción.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+
+      <div class="review-card" style="--i:5">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#7c6fd8">RP</div>
+          <div>
+            <div class="review-name">Rodrigo Pinto</div>
+            <div class="review-date">Hace 3 meses</div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Compro los granos en bolsa para la casa. Vienen con toda la info de la finca y el tueste siempre está fresco. Recomendado 100%.</p>
+        <div class="review-src">Google Reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band" id="reserva">
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">Visítanos</p>
+    <h2>Guárdate una mesa antes de venir</h2>
+    <p>Los fines de semana solemos llenarnos entre 10:00 y 13:00. Escríbenos y te confirmamos en el momento.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/56981234567" class="btn btn-primary" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+      <a href="tel:+56981234567" class="btn btn-outline">Llamar al local</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="contacto" id="contacto">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Contacto</p>
+      <h2 style="font-size:clamp(1.9rem,4vw,2.6rem)">Encuéntranos en Providencia</h2>
+      <p style="color:var(--cream-dim); margin-top:14px; max-width:420px">A dos cuadras del metro Manuel Montt, entre Román Díaz y Providencia.</p>
+
+      <div class="info-list">
+        <div class="info-row">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21c4-4 8-7.5 8-12a8 8 0 0 0-16 0c0 4.5 4 8 8 12Z" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.4" stroke="#b9a6ff" stroke-width="1.5"/></svg></div>
+          <div><h4>Dirección</h4><p>Román Díaz 1247, Providencia, Santiago</p></div>
+        </div>
+        <div class="info-row">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 5c0 8.5 6.5 15 15 15l3-4-6-3-2 2c-2-1-4-3-5-5l2-2-3-6-4 3Z" stroke="#b9a6ff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          <div><h4>Teléfono / WhatsApp</h4><p><a href="tel:+56981234567">+56 9 8123 4567</a></p></div>
+        </div>
+        <div class="info-row">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#b9a6ff" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke="#b9a6ff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <div><h4>Correo</h4><p><a href="mailto:hola@brumacoffee.cl">hola@brumacoffee.cl</a></p></div>
+        </div>
+      </div>
+
+      <table class="schedule-table">
+        <tr><td>Lunes a viernes</td><td>8:00 – 19:00</td></tr>
+        <tr><td>Sábado</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Domingo</td><td>10:00 – 15:00</td></tr>
+      </table>
+
+      <div class="social-row">
+        <a class="social-pill" href="https://instagram.com/bruma.cl" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a class="social-pill" href="https://facebook.com/brumacoffeelab" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 8h3V5h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9c0-.6.4-1 1-1Z" fill="currentColor"/></svg>
+        </a>
+        <a class="social-pill" href="https://wa.me/56981234567" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 20l1.4-4.2A8 8 0 1 1 9 18.5L4 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="map-card">
+        <div class="map-visual">
+          <div class="map-pin">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 21c4-4 8-7.5 8-12a8 8 0 0 0-16 0c0 4.5 4 8 8 12Z" fill="#b9a6ff" stroke="#16121d" stroke-width="1"/><circle cx="12" cy="9" r="2.6" fill="#16121d"/></svg>
+            <span>Román Díaz 1247, Providencia</span>
+          </div>
+        </div>
+        <div class="map-form">
+          <h4>Escríbenos para reservar</h4>
+          <p>Respondemos dentro del mismo día hábil.</p>
+          <form class="form-grid" id="reserveForm">
+            <div class="two">
+              <input type="text" placeholder="Nombre" required>
+              <input type="tel" placeholder="Teléfono">
+            </div>
+            <div class="two">
+              <input type="date" required>
+              <select required>
+                <option value="" disabled selected>N° de personas</option>
+                <option>1 - 2 personas</option>
+                <option>3 - 4 personas</option>
+                <option>5 o más</option>
+              </select>
+            </div>
+            <textarea placeholder="Comentario (opcional)"></textarea>
+            <button type="submit" class="btn btn-primary btn-block">Enviar solicitud</button>
+            <p class="form-note">Este formulario es parte de un proyecto demo de portafolio.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 9h13a3 3 0 0 1 0 6h-1" stroke="#16121d" stroke-width="1.6" stroke-linecap="round"/><path d="M4 9v6a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V9" stroke="#16121d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="brand-name">BRUMA<span>.</span></span>
+        </div>
+        <p>Café de especialidad tostado en pequeños lotes en Providencia, Santiago. Origen trazable, taza honesta.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#historia">Historia</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#menu">Menú</a></li>
+          <li><a href="#testimonios">Reseñas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Cafetería</h5>
+        <ul>
+          <li><a href="#contacto">Ubicación</a></li>
+          <li><a href="#reserva">Reservas</a></li>
+          <li><a href="mailto:hola@brumacoffee.cl">Trabaja con nosotros</a></li>
+          <li><a href="https://instagram.com/bruma.cl" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visítanos</h5>
+        <ul>
+          <li>Román Díaz 1247, Providencia</li>
+          <li>+56 9 8123 4567</li>
+          <li>hola@brumacoffee.cl</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> BRUMA Coffee Lab. Todos los derechos reservados.</span>
+      <span class="demo-tag">Proyecto demo elaborado por <strong>Codeta</strong></span>
+    </div>
+  </div>
+</footer>
+
+<button class="top-btn" id="topBtn" aria-label="Volver arriba">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="#16121d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Año dinámico ---------- */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---------- Nav: sombra al hacer scroll ---------- */
+  var nav = document.getElementById('nav');
+  var topBtn = document.getElementById('topBtn');
+  function onScroll(){
+    var y = window.scrollY || document.documentElement.scrollTop;
+    nav.classList.toggle('scrolled', y > 40);
+    topBtn.classList.toggle('show', y > 600);
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Menú hamburguesa ---------- */
+  var burger = document.getElementById('burger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  function closeMenu(){
+    burger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(){
+    var isOpen = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('active', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ---------- Scroll suave (fallback / cierre de menú) ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = this.getAttribute('href');
+      if (id.length > 1) {
+        var target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          var y = target.getBoundingClientRect().top + window.pageYOffset - 70;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  /* ---------- Filtro de menú ---------- */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var menuItems = document.querySelectorAll('.menu-item');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      menuItems.forEach(function(item){
+        var match = filter === 'all' || item.getAttribute('data-cat') === filter;
+        item.classList.toggle('show', match);
+      });
+    });
+  });
+
+  /* ---------- Reveal al hacer scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- Formulario demo (sin backend) ---------- */
+  var form = document.getElementById('reserveForm');
+  if (form) {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var original = btn.textContent;
+      btn.textContent = 'Solicitud enviada ✓';
+      btn.style.opacity = '0.75';
+      setTimeout(function(){
+        btn.textContent = original;
+        btn.style.opacity = '1';
+        form.reset();
+      }, 2600);
+    });
+  }
+})();
+</script>
+</body>
+</html>
